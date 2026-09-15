@@ -1,0 +1,24 @@
+// 中国大陆网络加速：把 Gradle 的插件与依赖仓库换成国内镜像，失败时自动回落官方源。
+//
+// 用法（只影响你自己这台机器，不会改动仓库里的 settings.gradle.kts）：
+//   mkdir -p ~/.gradle && cp tools/gradle-init-cn.gradle ~/.gradle/init.gradle
+//
+// Gradle 发行版本身也可以换镜像（见 README「国内网络小贴士」）：
+//   https://mirrors.cloud.tencent.com/gradle/gradle-8.11.1-bin.zip
+settingsEvaluated { settings ->
+    settings.pluginManagement.repositories {
+        clear()
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+    settings.dependencyResolutionManagement.repositories {
+        clear()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        google()
+        mavenCentral()
+    }
+}

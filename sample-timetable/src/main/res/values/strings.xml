@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">岛课表</string>
+    <string name="app_subtitle">全离线 · 开源</string>
+    <string name="widget_description">桌面显示下一节课与倒计时</string>
+    <string name="widget_title">下一节课</string>
+    <string name="widget_placeholder_course">——</string>
+    <string name="widget_placeholder_meta"></string>
+    <string name="widget_remaining">还有</string>
+    <string name="widget_empty">暂时没有下一节课</string>
+    <string name="widget_today_left">今天还有 %1$d 节</string>
+</resources>

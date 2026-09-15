@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 深色：接近纯黑的中性灰，不用蓝调 -->
+    <color name="bg">#0D0E10</color>
+    <color name="surface">#16181B</color>
+    <color name="surface_variant">#1E2126</color>
+    <color name="outline">#2A2E34</color>
+    <color name="grid_line">#22252A</color>
+    <color name="today_column">#151A18</color>
+    <color name="chip_bg">#1B1E22</color>
+    <color name="brand_stroke">#2F5B4B</color>
+
+    <!-- 文字三级 -->
+    <color name="text_primary">#E9EBEE</color>
+    <color name="text_secondary">#9BA1A8</color>
+    <color name="text_tertiary">#6E747B</color>
+
+    <!-- 低饱和强调色（青绿），整屏只有一个彩色焦点 -->
+    <color name="accent">#5AA88B</color>
+    <color name="accent_strong">#6FC3A2</color>
+    <color name="accent_container">#1E3A31</color>
+    <color name="on_accent">#06120D</color>
+
+    <color name="warn">#C2953F</color>
+    <color name="warn_surface">#1F1A12</color>
+    <color name="warn_outline">#3A2F16</color>
+
+    <color name="ic_launcher_background">#0D0E10</color>
+</resources>

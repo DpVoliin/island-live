@@ -1,0 +1,16 @@
+[versions]
+agp = "8.9.2"
+kotlin = "2.1.20"
+core = "1.17.0"          # 1.17.0 是第一个含 NotificationCompat.ProgressStyle / setRequestPromotedOngoing / canPostPromotedNotifications 的稳定版
+appcompat = "1.7.0"
+material = "1.12.0"
+
+[libraries]
+androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

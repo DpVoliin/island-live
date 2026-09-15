@@ -1,0 +1,21 @@
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+build/
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+*.apk
+*.aab
+*.keystore
+!debug.keystore
+
+# 内部调研记录（含"参考过哪些项目"，不进公开仓库）
+internal-notes/
+
+# Python 缓存
+__pycache__/
+*.pyc

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootImport"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="18dp">
+
+
+        <!-- ==================== 格式说明 ==================== -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="支持 Excel(.xlsx) / CSV / TXT / JSON，表格形态自动识别"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="monospace"
+            android:lineSpacingExtra="2dp"
+            android:text="A. 一行一门课（推荐）\n课程名,教师,教室,星期,开始节次,节数,周次\n高等数学,张建国,3教305,周一,1,2,1-16\n\nB. 网格（课表那种方格，xlsx 或复制出来的文本都行）\n节次\t周一\t周二\n1\t高等数学@3教305\n2\t高等数学@3教305\t线性代数@3教207"
+            android:textColor="@color/text_secondary"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="3dp"
+            android:text="· 表头可写可不写；写了就按关键词认列（课程 / 教师 / 教室 / 星期 / 开始节次 / 节数 / 周次），列顺序随便调也能认\n· 星期支持：周一 / 星期一 / 1 / 一\n· 周次支持：1-16 、1,3,5 、1-16单 、1-16双；留空 ＝ 每周\n· .xlsx 里的合并单元格（课表常见）会自动并成连堂课\n· 编码：UTF-8 与 GBK（Excel 中文另存为 CSV）都能正确读；老版 .xls 请先另存为 .xlsx 或 .csv"
+            android:textColor="@color/text_tertiary"
+            android:textSize="11sp" />
+
+        <!-- ==================== 操作 ==================== -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnExportBackup"
+            style="@style/ActionButton.Quiet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="导出 / 备份课表（换机、重装前先存一份）" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveTemplate"
+            style="@style/SmallButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="① 保存模板到手机（.csv，用 Excel/WPS 填）"
+            android:textColor="@color/accent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnClipboard"
+            style="@style/ActionButton.Quiet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="从剪贴板导入" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPickFile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="② 选择文件（.xlsx / .csv / .txt / .json / .ics）" />
+
+        <!-- 方式三：粘贴 JSON -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="③ 粘贴 JSON / ICS 日历（脚本输出、其它 App 导出）"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:lineSpacingExtra="2dp"
+            android:text="字段名容错：name/courseName/课程名、position/room/教室、day/星期（1=周一，0=周日）、sections/节次（[1,2] 或 &quot;1-2&quot;）、weeks/周次（[1..] 或 &quot;1-16单&quot;）"
+            android:textColor="@color/text_tertiary"
+            android:textSize="11sp" />
+
+        <EditText
+            android:id="@+id/etJson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="monospace"
+            android:gravity="top|start"
+            android:hint="在这里粘贴 JSON，或点右边「填入示例」看格式"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:minLines="4"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_tertiary"
+            android:textSize="11sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnJsonSample"
+                style="@style/SmallButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:text="填入示例" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnJsonParse"
+                style="@style/SmallButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="解析 JSON 并预览"
+                android:textColor="@color/accent" />
+        </LinearLayout>
+
+        <!-- ==================== 当前周次 ==================== -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="现在是第几周？"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="填教务里显示的当前教学周（填错会缺课）"
+            android:textColor="@color/text_tertiary"
+            android:textSize="11sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:hint="第几周（1–30）"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etWeek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="2"
+                android:text="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ==================== 预览 ==================== -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="解析预览"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvImportPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:lineSpacingExtra="3dp"
+            android:text="还没选文件"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+
+        <!-- ==================== 确认 ==================== -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnImportConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:enabled="false"
+            android:text="确认导入" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnImportReset"
+            style="@style/SmallButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:text="恢复内置演示课表（清掉导入结果）"
+            android:textColor="@color/text_tertiary" />
+
+    </LinearLayout>
+</ScrollView>

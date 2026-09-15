@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 通知权限：显示实时通知的前提，宿主 App 仍需在运行时引导用户授权 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- 后台存活：用前台服务把进程顶到"前台"优先级（前台通知就是"岛"本身，不额外占通知） -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
+    <application>
+        <!-- 保活用的前台服务。这里的 specialUse 是诚实的归类：它既不是数据同步也不是媒体播放，
+             而是"维持一条进行中的实时状态通知"。上架时需在商店表单里说明用途。 -->
+        <service
+            android:name=".LiveUpdateService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="维持课程进行中的实时通知（灵动岛/实况窗/超级岛）" />
+        </service>
+
+        <!-- 兜底闹钟接收器：① 到期把岛撤下 ② 看门狗定期把被划掉的通知补回来（进程死了也照响） -->
+        <receiver
+            android:name=".LiveUpdateAlarmReceiver"
+            android:exported="false" />
+    </application>
+
+</manifest>

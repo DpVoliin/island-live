@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 启动图标前景：一条「岛」+ 内部进度填充 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FF5AA88B"
+        android:pathData="M43,46 H65 a9,9 0 0 1 0,18 H43 a9,9 0 0 1 0,-18 z" />
+    <path
+        android:fillColor="#FF0D0E10"
+        android:pathData="M41,52 h10 a3,3 0 0 1 0,6 h-10 a3,3 0 0 1 0,-6 z" />
+</vector>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 浅色（默认）：中性灰底、不用蓝调、不用刺眼纯白 -->
+    <color name="bg">#F4F5F6</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#ECEEF0</color>
+    <color name="outline">#D9DCDF</color>
+    <color name="grid_line">#E6E8EA</color>
+    <color name="today_column">#EAF2EE</color>
+    <color name="chip_bg">#ECEFF1</color>
+    <color name="brand_stroke">#B7D9CB</color>
+
+    <!-- 文字三级 -->
+    <color name="text_primary">#17191B</color>
+    <color name="text_secondary">#5B6167</color>
+    <color name="text_tertiary">#8B9197</color>
+
+    <!-- 低饱和强调色（青绿），整屏只有一个彩色焦点 -->
+    <color name="accent">#3F8E73</color>
+    <color name="accent_strong">#2E7A61</color>
+    <color name="accent_container">#DCEFE6</color>
+    <color name="on_accent">#FFFFFF</color>
+
+    <color name="warn">#8A6A1C</color>
+    <color name="warn_surface">#FBF4E3</color>
+    <color name="warn_outline">#E7D6AC</color>
+
+    <!-- 启动图标底色：两套主题保持一致，不随深浅切换 -->
+    <color name="ic_launcher_background">#0D0E10</color>
+</resources>

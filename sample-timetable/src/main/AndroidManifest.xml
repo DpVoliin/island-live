@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 实时通知前提 -->
+    <!-- 「悬浮岛」悬浮窗：自绘一个贴边药丸（系统不支持实时通知时兜底显示） -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Android 16（API 36）起「promoted 通知 / 岛」所需；旧系统会忽略这条声明 -->
+    <uses-permission android:name="android.permission.POST_PROMOTED_NOTIFICATIONS" />
+    <!-- 上课提醒：精确闹钟（Android 12+ 需用户在「闹钟与提醒」里授权，未授权则退化为不精确） -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- 开机后重排提醒（闹钟不跨重启存活） -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- 「一键允许后台运行」：请求用户把本应用加入电池优化白名单（保活最有效的一步） -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <!-- 上课自动静音：切「仅闹钟」勿扰需要这个权限（系统里手动授予一次） -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+
+    <!-- 写入系统日历（把整学期课表写进专用日历「岛课表」） -->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <!-- 教务直连：唯一需要联网的功能（在 WebView 里由用户自己登录后抓课表）。
+         其余导入方式（Excel / CSV / JSON / ICS）全部离线，不做任何联网。 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".IslandApp"
+        android:allowBackup="true"
+        android:usesCleartextTraffic="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.IslandTimetable">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 作息时间（节次表）设置：教务导入不带时刻，得让用户自己设一次本校作息 -->
+        <activity
+            android:name=".PeriodActivity"
+            android:exported="false"
+            android:label="作息时间" />
+
+        <!-- 导入课表：CSV/TXT/xlsx（本机解析，不联网） -->
+        <activity
+            android:name=".ImportActivity"
+            android:exported="true"
+            android:label="导入课表"
+            android:windowSoftInputMode="adjustResize" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/*" />
+                <data android:mimeType="application/json" />
+                <data android:mimeType="application/xhtml+xml" />
+                <data android:mimeType="application/octet-stream" />
+                <data android:mimeType="application/vnd.ms-excel" />
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="application/octet-stream" />
+                <data android:mimeType="application/vnd.ms-excel" />
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+            </intent-filter>
+        </activity>
+
+        <!-- 教务直连（正方）：WebView 由用户自己登录，本页只在其会话内抓课表 -->
+        <activity
+            android:name=".JwxtActivity"
+            android:exported="false"
+            android:label="教务直连（正方）"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- 上课提醒：闹钟到点 + 开机后重排 -->
+        <!-- 常驻通知的前台服务：only 在用户打开「常驻通知」开关时运行。
+
+             specialUse 是诚实归类：既非数据同步也非媒体播放，而是"维持一条常驻状态通知"。 -->
+
+        <service
+
+            android:name=".StickyService"
+            android:stopWithTask="false"
+
+            android:exported="false"
+
+            android:foregroundServiceType="specialUse">
+
+            <property
+
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+
+                android:value="常显下一节课的常驻状态通知" />
+
+        </service>
+
+
+        <receiver
+            android:name=".ReminderReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="dev.dpvoliin.islandtimetable.REMINDER_FIRE" />
+            </intent-filter>
+        </receiver>
+
+
+        <!-- 桌面小组件：下一节课 + 实时倒计时（不打开 App 就能看） -->
+        <receiver
+            android:name=".TimetableWidget"
+            android:exported="false"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
+        <!-- 保活巡检（JobScheduler）：与闹钟看门狗互为兜底的第二条路径 -->
+        <service
+            android:name=".KeepaliveJobService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+    </application>
+
+</manifest>
